@@ -1,0 +1,41 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci --omit=dev",
+  "buildCommand": "node --check api/index.js",
+  "outputDirectory": "public",
+  "regions": ["bom1"],
+  "env": {
+    "NODE_ENV": "production",
+    "NODEJS_HELPERS": "0",
+    "TRUST_PROXY_HOPS": "1"
+  },
+  "functions": {
+    "api/index.js": {
+      "maxDuration": 60,
+      "includeFiles": "src/**",
+      "excludeFiles": "test/**"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/api"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        }
+      ]
+    }
+  ]
+}
